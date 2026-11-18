@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bob Garage Tailor – Jahit dan Permak dengan Tanggal Selesai Pasti</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Public+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="site-header">
+        <a href="#beranda" class="brand" data-go="beranda">Bob Garage Tailor</a>
+        <button type="button" class="btn btn-small btn-outline-light" data-go="cek">Cek pesanan saya</button>
+    </header>
+
+    <main id="app">
+
+        <!-- ============ BERANDA ============ -->
+        <section class="screen" id="s-beranda" hidden>
+            <div class="hero">
+                <h1 tabindex="-1">Jahit dan permak, tanggal selesainya pasti.</h1>
+                <p>Pesan dari rumah, pilih jadwal jemput, lalu pantau progres pakaian Anda tanpa perlu bertanya ke
+                    penjahit.</p>
+                <div class="hero-actions">
+                    <button type="button" class="btn btn-tape" data-action="open-cara">Mulai memesan</button>
+                    <button type="button" class="btn btn-outline-light" data-go="cek">Cek pesanan saya</button>
+                </div>
+                <div class="ruler" aria-hidden="true"></div>
+            </div>
+
+            <div class="stack">
+                <section class="panel">
+                    <h2>Layanan kami</h2>
+                    <ul class="plain-list">
+                        <li><strong>Permak dan perbaikan (Lini A).</strong> Potong hem, kecilkan pinggang, ganti
+                            resleting, dan perbaikan lain.</li>
+                        <li><strong>Jahit baru standar (Lini B).</strong> Kemeja, celana, dan rok dengan ukuran dari
+                            pakaian contoh atau diukur di workshop.</li>
+                        <li><strong>Gaun pesta dan jas pria (Lini C).</strong> Dijadwalkan manual atas permintaan.
+                            Hubungi admin.</li>
+                    </ul>
+                </section>
+                <section class="panel">
+                    <h2>Wilayah layanan</h2>
+                    <p>Antar-jemput tersedia di Jakarta Selatan dan Tangerang Selatan. Workshop kami ada di Lebak Bulus.
+                    </p>
+                </section>
+            </div>
+
+            <dialog id="dlg-cara" aria-labelledby="dlg-cara-title">
+                <h2 id="dlg-cara-title">Pilih cara memesan</h2>
+                <div class="choice-list">
+                    <button type="button" class="choice" data-action="start-website">
+                        <strong>Pesan lewat website</strong>
+                        <span>Pilih layanan, unggah foto, dan atur jadwal jemput sendiri.</span>
+                    </button>
+                    <button type="button" class="choice" data-action="start-langsung">
+                        <strong>Pesan langsung</strong>
+                        <span>Datang ke workshop atau hubungi admin. Admin yang mencatat pesanan Anda.</span>
+                    </button>
+                </div>
+                <button type="button" class="btn btn-ghost" data-action="close-cara">Batal</button>
+            </dialog>
+        </section>
+
+        <!-- ============ KATALOG ============ -->
+        <section class="screen" id="s-katalog" hidden>
+            <ol class="stepper" data-step="1" aria-label="Langkah pemesanan"></ol>
+            <h2 tabindex="-1">Katalog layanan dan tarif</h2>
+            <p class="lead">Pilih satu atau lebih layanan. Katalog bisa dilihat tanpa akun.</p>
+            <div id="kuota-notice" class="notice notice-warn" hidden>
+                <strong>Kuota pesanan sedang penuh.</strong>
+                Pemesanan ditutup sementara. Silakan kembali beberapa hari lagi atau hubungi admin.
+            </div>
+            <div id="katalog-list"></div>
+            <div class="action-row">
+                <p id="katalog-count" class="muted">Belum ada layanan dipilih.</p>
+                <button type="button" class="btn" id="btn-katalog-lanjut" data-action="katalog-next" disabled>Lanjut isi
+                    data pesanan</button>
+            </div>
+        </section>
+
+        <!-- ============ FORM PEMESANAN ============ -->
+        <section class="screen" id="s-form" hidden>
+            <ol class="stepper" data-step="2" aria-label="Langkah pemesanan"></ol>
+            <h2 tabindex="-1">Form pemesanan</h2>
+            <p id="form-layanan" class="lead"></p>
+
+            <form id="form-pesan" novalidate>
+                <div class="field">
+                    <label for="f-foto">Foto pakaian (minimal satu)</label>
+                    <input type="file" id="f-foto" accept="image/*" multiple aria-describedby="e-foto">
+                    <p class="hint">Foto pakaian yang ingin dijahit atau dipermak. Untuk jahit baru, foto pakaian acuan
+                        yang ukurannya pas.</p>
+                    <div id="foto-preview" class="thumbs"></div>
+                    <p class="error" id="e-foto" role="alert"></p>
+                </div>
+
+                <div class="field">
+                    <label for="f-catatan">Catatan permintaan</label>
+                    <textarea id="f-catatan" rows="3"
+                        placeholder="Contoh: hem dipotong 3 cm, jahitan asli dipertahankan"></textarea>
+                </div>
+
+                <div class="field">
+                    <label for="f-nama">Nama</label>
+                    <input type="text" id="f-nama" autocomplete="name" aria-describedby="e-nama">
+                    <p class="error" id="e-nama" role="alert"></p>
+                </div>
+                <div class="field">
+                    <label for="f-telp">Nomor telepon (WhatsApp)</label>
+                    <input type="tel" id="f-telp" autocomplete="tel" placeholder="081234567890"
+                        aria-describedby="e-telp">
+                    <p class="error" id="e-telp" role="alert"></p>
+                </div>
+                <div class="field">
+                    <label for="f-alamat">Alamat</label>
+                    <textarea id="f-alamat" rows="2" autocomplete="street-address"
+                        aria-describedby="e-alamat"></textarea>
+                    <p class="error" id="e-alamat" role="alert"></p>
+                </div>
+
+                <p id="note-lini-a" class="notice" hidden>Untuk layanan Lini A, ukuran diambil dari pakaian yang Anda
+                    kirim.</p>
+
+                <div id="opts-lini-b" hidden>
+                    <fieldset class="field">
+                        <legend>Cara menentukan ukuran (Lini B)</legend>
+                        <label class="radio"><input type="radio" name="jalur" value="contoh"> Jalur contoh: ukuran
+                            diambil dari pakaian acuan</label>
+                        <label class="radio"><input type="radio" name="jalur" value="ukur"> Jalur ukur langsung: diukur
+                            di workshop</label>
+                        <p class="error" id="e-jalur" role="alert"></p>
+                    </fieldset>
+                    <fieldset class="field">
+                        <legend>Fitting setelah jadi?</legend>
+                        <label class="radio"><input type="radio" name="fitting" value="ya"> Ya, saya mau fitting</label>
+                        <label class="radio"><input type="radio" name="fitting" value="tidak"> Tidak perlu
+                            fitting</label>
+                        <p class="error" id="e-fitting" role="alert"></p>
+                    </fieldset>
+                </div>
+
+                <div class="action-row">
+                    <button type="button" class="btn btn-ghost" data-go="katalog">Kembali</button>
+                    <button type="submit" class="btn">Lihat estimasi</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- ============ ESTIMASI ============ -->
+        <section class="screen" id="s-estimasi" hidden>
+            <ol class="stepper" data-step="3" aria-label="Langkah pemesanan"></ol>
+            <h2 tabindex="-1">Estimasi harga dan tanggal selesai</h2>
+            <p class="lead">Perkiraan ini muncul sebelum pesanan dikonfirmasi.</p>
+            <div id="estimasi-body"></div>
+            <div class="action-row">
+                <button type="button" class="btn btn-ghost" data-go="katalog">Ubah pesanan</button>
+                <button type="button" class="btn" data-go="jadwal">Setuju, pilih jadwal</button>
+            </div>
+        </section>
+
+        <!-- ============ JADWAL ============ -->
+        <section class="screen" id="s-jadwal" hidden>
+            <ol class="stepper" data-step="4" aria-label="Langkah pemesanan"></ol>
+            <h2 tabindex="-1" id="jadwal-title">Pilih jadwal dan alamat penjemputan</h2>
+            <p class="lead" id="jadwal-lead"></p>
+            <div id="kurir-box"></div>
+            <div id="slot-list"></div>
+            <div class="field" id="alamat-jemput-wrap">
+                <label for="f-alamat-jemput">Alamat penjemputan</label>
+                <textarea id="f-alamat-jemput" rows="2" aria-describedby="e-jadwal"></textarea>
+            </div>
+            <p class="error" id="e-jadwal" role="alert"></p>
+            <div class="action-row">
+                <button type="button" class="btn btn-ghost" data-go="estimasi">Kembali</button>
+                <button type="button" class="btn" data-action="jadwal-next">Lihat ringkasan</button>
+            </div>
+        </section>
+
+        <!-- ============ RINGKASAN ============ -->
+        <section class="screen" id="s-ringkasan" hidden>
+            <ol class="stepper" data-step="5" aria-label="Langkah pemesanan"></ol>
+            <h2 tabindex="-1">Ringkasan pesanan</h2>
+            <p class="lead">Periksa lagi sebelum dikirim. Data yang sudah diisi tetap tersimpan bila Anda kembali.</p>
+            <div id="ringkasan-body"></div>
+            <div class="action-row">
+                <button type="button" class="btn btn-ghost" data-go="jadwal">Ubah jadwal</button>
+                <button type="button" class="btn" data-action="kirim-pesanan">Kirim pesanan</button>
+            </div>
+        </section>
+
+        <!-- ============ PROSES: TERKIRIM, VERIFIKASI ============ -->
+        <section class="screen" id="s-proses" hidden>
+            <h2 tabindex="-1">Status pengajuan</h2>
+            <div id="proses-body"></div>
+        </section>
+
+        <!-- ============ PEMBAYARAN DP ============ -->
+        <section class="screen" id="s-dp" hidden>
+            <h2 tabindex="-1">Pembayaran uang muka (DP)</h2>
+            <div id="dp-body"></div>
+        </section>
+
+        <!-- ============ KONFIRMASI PESANAN ============ -->
+        <section class="screen" id="s-konfirmasi" hidden>
+            <h2 tabindex="-1">Pesanan terkonfirmasi</h2>
+            <div id="konfirmasi-body"></div>
+        </section>
+
+        <!-- ============ PESAN LANGSUNG ============ -->
+        <section class="screen" id="s-langsung" hidden>
+            <h2 tabindex="-1">Pesan langsung</h2>
+            <p class="lead">Datang ke workshop atau hubungi admin. Admin akan mencatat pesanan ke sistem atas nama Anda,
+                jadi tidak ada pesanan yang berjalan di luar sistem.</p>
+
+            <div class="panel">
+                <dl class="info-list">
+                    <div>
+                        <dt>Admin (CS)</dt>
+                        <dd>WhatsApp 0812-0000-0000 (contoh)</dd>
+                    </div>
+                    <div>
+                        <dt>Workshop</dt>
+                        <dd>Lebak Bulus, Jakarta Selatan</dd>
+                    </div>
+                    <div>
+                        <dt>Jam layanan</dt>
+                        <dd>Senin sampai Sabtu, 09.00 sampai 17.00</dd>
+                    </div>
+                </dl>
+                <p class="muted">Siapkan: pakaian, foto bila ada, serta nama, nomor telepon, dan alamat Anda.</p>
+            </div>
+
+            <form id="form-langsung" class="panel" novalidate>
+                <h3>Simulasi pencatatan oleh admin</h3>
+                <p class="hint">Bagian ini hanya untuk demo. Pada kondisi nyata, admin yang mengisinya setelah Anda
+                    menyebutkan kebutuhan.</p>
+                <div class="field">
+                    <label for="l-nama">Nama</label>
+                    <input type="text" id="l-nama" aria-describedby="e-l-nama">
+                    <p class="error" id="e-l-nama" role="alert"></p>
+                </div>
+                <div class="field">
+                    <label for="l-telp">Nomor telepon (WhatsApp)</label>
+                    <input type="tel" id="l-telp" placeholder="081234567890" aria-describedby="e-l-telp">
+                    <p class="error" id="e-l-telp" role="alert"></p>
+                </div>
+                <div class="field">
+                    <label for="l-alamat">Alamat</label>
+                    <textarea id="l-alamat" rows="2" aria-describedby="e-l-alamat"></textarea>
+                    <p class="error" id="e-l-alamat" role="alert"></p>
+                </div>
+                <div class="field">
+                    <label for="l-layanan">Layanan</label>
+                    <select id="l-layanan"></select>
+                </div>
+                <div id="l-opts-b" hidden>
+                    <div class="field">
+                        <label for="l-jalur">Cara menentukan ukuran</label>
+                        <select id="l-jalur">
+                            <option value="contoh">Jalur contoh</option>
+                            <option value="ukur">Jalur ukur langsung</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="l-fitting">Fitting</label>
+                        <select id="l-fitting">
+                            <option value="tidak">Tidak perlu fitting</option>
+                            <option value="ya">Ya, fitting</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="l-catatan">Catatan permintaan</label>
+                    <textarea id="l-catatan" rows="2"></textarea>
+                </div>
+                <div class="action-row">
+                    <button type="button" class="btn btn-ghost" data-go="beranda">Pesan lewat website saja</button>
+                    <button type="submit" class="btn">Admin mencatat pesanan</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- ============ TAUTAN WHATSAPP ============ -->
+        <section class="screen" id="s-wa" hidden>
+            <h2 tabindex="-1">Tautan pelacakan dari WhatsApp</h2>
+            <div id="wa-body"></div>
+        </section>
+
+        <!-- ============ CEK PESANAN ============ -->
+        <section class="screen" id="s-cek" hidden>
+            <h2 tabindex="-1">Cek pesanan saya</h2>
+            <p class="lead">Tidak perlu akun. Masukkan nomor pesanan yang Anda terima setelah DP dikonfirmasi.</p>
+            <form id="form-cek" class="panel" novalidate>
+                <div class="field">
+                    <label for="c-nomor">Nomor pesanan</label>
+                    <input type="text" id="c-nomor" placeholder="BGT-260001" autocomplete="off"
+                        aria-describedby="e-cek">
+                    <p class="error" id="e-cek" role="alert"></p>
+                </div>
+                <button type="submit" class="btn">Cari pesanan</button>
+                <p class="hint">Untuk mencoba, gunakan nomor BGT-260001 atau BGT-260002.</p>
+            </form>
+        </section>
+
+        <!-- ============ DAFTAR PESANAN ============ -->
+        <section class="screen" id="s-daftar" hidden>
+            <h2 tabindex="-1">Daftar pesanan</h2>
+            <div class="filters">
+                <div class="field">
+                    <label for="d-cari">Cari</label>
+                    <input type="search" id="d-cari" placeholder="Nomor atau nama layanan">
+                </div>
+                <div class="field">
+                    <label for="d-filter">Tampilkan</label>
+                    <select id="d-filter">
+                        <option value="semua">Semua pesanan</option>
+                        <option value="berjalan">Sedang berjalan</option>
+                        <option value="siap">Siap diambil</option>
+                        <option value="selesai">Selesai</option>
+                    </select>
+                </div>
+            </div>
+            <div id="daftar-list"></div>
+            <button type="button" class="btn btn-ghost" data-go="cek">Cari nomor lain</button>
+        </section>
+
+        <!-- ============ DETAIL PESANAN ============ -->
+        <section class="screen" id="s-detail" hidden>
+            <h2 tabindex="-1">Detail pesanan</h2>
+            <div id="detail-body"></div>
+        </section>
+
+        <!-- ============ STATUS PENGERJAAN ============ -->
+        <section class="screen" id="s-status" hidden>
+            <h2 tabindex="-1">Status pengerjaan</h2>
+            <div id="status-body"></div>
+        </section>
+
+        <!-- ============ PELUNASAN ============ -->
+        <section class="screen" id="s-pelunasan" hidden>
+            <h2 tabindex="-1">Pelunasan</h2>
+            <div id="pelunasan-body"></div>
+        </section>
+
+        <!-- ============ KONFIRMASI PENERIMAAN ============ -->
+        <section class="screen" id="s-terima" hidden>
+            <h2 tabindex="-1">Konfirmasi penerimaan</h2>
+            <p class="lead">Pakaian sudah sampai. Beri tahu kami apakah hasilnya sesuai.</p>
+            <form id="form-terima" class="panel" novalidate>
+                <fieldset class="field">
+                    <legend>Kondisi pesanan</legend>
+                    <label class="radio"><input type="radio" name="kondisi" value="sesuai" checked> Sesuai
+                        permintaan</label>
+                    <label class="radio"><input type="radio" name="kondisi" value="revisi"> Ada yang perlu
+                        diperbaiki</label>
+                </fieldset>
+                <div class="field">
+                    <label for="t-catatan">Catatan (opsional)</label>
+                    <textarea id="t-catatan" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn">Konfirmasi penerimaan</button>
+            </form>
+        </section>
+
+        <!-- ============ SELESAI ============ -->
+        <section class="screen" id="s-selesai" hidden>
+            <h2 tabindex="-1">Pesanan selesai</h2>
+            <div id="selesai-body"></div>
+        </section>
+
+    </main>
+
+    <!-- Simulasi peran: hanya untuk demo prototipe -->
+    <details class="dock" id="dock">
+        <summary>Simulasi peran</summary>
+        <div class="dock-panel">
+            <p class="hint">Hanya untuk demo. Pada sistem nyata, langkah ini dilakukan penjahit, kurir, dan admin.</p>
+            <div id="dock-order"></div>
+            <label class="check"><input type="checkbox" id="t-kuota"> Kuota pesanan penuh</label>
+            <label class="check"><input type="checkbox" id="t-kurir"> Kurir mitra tidak tersedia</label>
+            <button type="button" class="btn btn-small btn-ghost" data-act="reset">Reset data demo</button>
+        </div>
+    </details>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
