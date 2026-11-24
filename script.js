@@ -2,6 +2,7 @@
    Bob Garage Tailor – logika user flow (prototipe)
    Alur: Beranda > Katalog > Form > Estimasi > Jadwal > Ringkasan
          > Verifikasi > DP > Konfirmasi > Pelacakan > Pelunasan > Penerimaan
+   Hari kerja: Senin sampai Jumat (Sabtu dan Minggu tidak dihitung)
    ========================================================== */
 (() => {
     'use strict';
@@ -58,9 +59,10 @@
     const cleanPhone = v => String(v).replace(/[\s-]/g, '');
     const validPhone = v => /^(\+62|62|0)8\d{7,12}$/.test(cleanPhone(v));
 
+    /* Hari kerja Senin sampai Jumat: lewati Minggu (0) dan Sabtu (6). */
     function addWorkDays(from, n) {
         const d = new Date(from);
-        while (n > 0) { d.setDate(d.getDate() + 1); if (d.getDay() !== 0) n--; }
+        while (n > 0) { d.setDate(d.getDate() + 1); if (d.getDay() !== 0 && d.getDay() !== 6) n--; }
         return d;
     }
 
@@ -125,7 +127,7 @@
         return { total, work, queue, buffer, days, date: addWorkDays(new Date(), days) };
     }
 
-    /* ---------- Slot jadwal ---------- */
+    /* ---------- Slot jadwal (hanya Senin sampai Jumat) ---------- */
     function genSlots(type) {
         const cap = type === 'ukur' ? 2 : 4;
         const out = [];
@@ -133,7 +135,7 @@
         let guard = 0;
         while (out.length < 4 && guard < 14) {
             d.setDate(d.getDate() + 1); guard++;
-            if (d.getDay() === 0) continue;
+            if (d.getDay() === 0 || d.getDay() === 6) continue;
             const key = ymd(d);
             const dateText = fmtDate(d, { weekday: 'long', day: 'numeric', month: 'long' });
             out.push({
@@ -295,7 +297,7 @@
           <div><dt>Antrean yang sedang berjalan</dt><dd>${est.queue} hari kerja</dd></div>
           <div><dt>Jeda aman</dt><dd>${est.buffer} hari kerja</dd></div>
         </dl>
-        <p class="hint">Hari Minggu tidak dihitung. Tanggal bisa bergeser bila Anda mengubah pesanan.</p>
+        <p class="hint">Sabtu dan Minggu tidak dihitung. Tanggal bisa bergeser bila Anda mengubah pesanan.</p>
       </div>`;
     }
 
