@@ -74,6 +74,7 @@ p {
 h2:focus,
 h1:focus {
     outline: none;
+    box-shadow: none;
 }
 
 .lead {
@@ -180,10 +181,11 @@ main {
 
 /* ---------- Hero dengan pita ukur ---------- */
 .hero {
+    --hp: 22px;
     background: var(--denim);
     color: #fff;
-    border-radius: 12px;
-    padding: 32px 22px 0;
+    border-radius: 14px;
+    padding: 28px var(--hp) 0;
     overflow: hidden;
 }
 
@@ -202,7 +204,7 @@ main {
 
 .ruler {
     height: 38px;
-    margin: 0 -22px;
+    margin: 0 calc(var(--hp) * -1);
     background-color: var(--tape);
     background-image:
         repeating-linear-gradient(90deg, var(--ink) 0 1.5px, transparent 1.5px 10px),
@@ -1001,5 +1003,339 @@ dialog::backdrop {
 
     .toast {
         transition: none;
+    }
+}
+
+/* ==========================================================
+   Tambahan: navigasi, foto beranda, halaman About
+   ========================================================== */
+.site-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: .95rem;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border-bottom: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, .12);
+}
+
+.nav-link[aria-current="page"] {
+    border-bottom-color: var(--tape);
+}
+
+body[data-screen="beranda"] main,
+body[data-screen="about"] main {
+    max-width: 980px;
+}
+
+.eyebrow {
+    font-size: .8rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--tape);
+    margin: 0 0 .5rem;
+}
+
+/* Hero dengan foto */
+.hero-grid {
+    display: grid;
+    gap: 22px;
+    align-items: center;
+}
+
+.hero-copy .hero-actions {
+    margin-bottom: 1.4rem;
+}
+
+.hero-photo {
+    margin: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 3px solid var(--tape);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, .35);
+    background: var(--denim-deep);
+    transform: rotate(-1deg);
+}
+
+.hero-photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+@media (min-width: 820px) {
+    .hero {
+        --hp: 40px;
+        padding-top: 40px;
+    }
+
+    .hero-grid {
+        grid-template-columns: 1fr 1.05fr;
+        gap: 40px;
+        padding-bottom: 36px;
+    }
+
+    .hero-copy .hero-actions {
+        margin-bottom: 0;
+    }
+}
+
+/* Galeri */
+.gallery-strip {
+    margin-top: 28px;
+}
+
+.gallery-grid,
+.result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.photo-card {
+    margin: 0;
+    background: var(--paper);
+    border: 2px dashed var(--stitch);
+    border-radius: 12px;
+    padding: 8px;
+}
+
+.photo-card img {
+    display: block;
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 7px;
+}
+
+.photo-card figcaption {
+    padding: 10px 6px 4px;
+    font-weight: 600;
+    font-size: .95rem;
+}
+
+@media (min-width: 820px) {
+    .gallery-strip .photo-card img {
+        height: 340px;
+    }
+}
+
+/* About */
+.about-hero {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    min-height: 220px;
+    background: var(--denim-deep);
+    display: flex;
+    align-items: flex-end;
+}
+
+.about-hero img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    opacity: .55;
+}
+
+.about-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(18, 35, 59, .1), rgba(18, 35, 59, .92));
+}
+
+.about-hero-text {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    padding: 26px 22px;
+}
+
+.about-hero-text h2 {
+    font-size: clamp(2rem, 6vw, 3rem);
+    font-weight: 800;
+    margin-bottom: .3rem;
+}
+
+.about-hero-text p:last-child {
+    margin: 0;
+    color: #d6e0ee;
+}
+
+.about-body {
+    max-width: 68ch;
+    margin: 28px auto 0;
+    font-size: 1.05rem;
+}
+
+.about-lead {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    font-weight: 500;
+    border-left: 5px solid var(--tape);
+    padding-left: 16px;
+    margin-bottom: 1.2rem;
+}
+
+.pillars {
+    list-style: none;
+    padding: 0;
+    margin: 28px 0 0;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.pillars li {
+    background: var(--paper);
+    border: 2px dashed var(--stitch);
+    border-radius: 12px;
+    padding: 16px;
+    display: grid;
+    gap: 4px;
+    align-content: start;
+}
+
+.pillars strong {
+    font-family: var(--font-head);
+    font-stretch: 85%;
+    font-size: 1.25rem;
+}
+
+.pillars span:last-child {
+    color: var(--muted);
+    font-size: .93rem;
+}
+
+.pillar-no {
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: .85rem;
+    background: var(--tape);
+    color: var(--ink);
+    width: 34px;
+    height: 24px;
+    border-radius: 4px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 6px;
+}
+
+.about-section {
+    margin-top: 44px;
+}
+
+/* Sebelum dan sesudah: dua kartu sama besar */
+.ba-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    align-items: stretch;
+}
+
+.ba-card {
+    margin: 0;
+    background: var(--paper);
+    border: 2px dashed var(--stitch);
+    border-radius: 12px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ba-card img {
+    display: block;
+    width: 100%;
+    height: 380px;
+    object-fit: contain;
+    border-radius: 7px;
+    background: #fff;
+}
+
+.ba-card figcaption {
+    padding: 10px 6px 4px;
+    display: grid;
+}
+
+.ba-card figcaption span {
+    color: var(--muted);
+    font-size: .92rem;
+}
+
+.result-grid .photo-card img {
+    height: 300px;
+    object-fit: cover;
+}
+
+.about-cta {
+    margin: 44px 0 12px;
+    background: var(--denim);
+    color: #fff;
+    border-radius: 14px;
+    padding: 28px 22px;
+    border-bottom: 10px solid var(--tape);
+}
+
+.about-cta p {
+    color: #d6e0ee;
+}
+
+.about-cta .hero-actions {
+    margin-bottom: 0;
+}
+
+@media (max-width: 680px) {
+    .ba-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ba-card img {
+        height: 300px;
+    }
+
+    .pillars {
+        grid-template-columns: 1fr;
+    }
+
+    .photo-card img {
+        height: 190px;
+    }
+
+    .result-grid .photo-card img {
+        height: 220px;
+    }
+}
+
+@media (max-width: 420px) {
+    .brand {
+        font-size: 1.1rem;
+    }
+
+    .site-header {
+        padding: 10px 10px;
+    }
+
+    .nav-link {
+        padding: 8px 8px;
+    }
+
+    .btn-small {
+        padding: 6px 10px;
+        font-size: .85rem;
     }
 }

@@ -17,7 +17,10 @@
 
     <header class="site-header">
         <a href="#beranda" class="brand" data-go="beranda">Bob Garage Tailor</a>
-        <button type="button" class="btn btn-small btn-outline-light" data-go="cek">Cek pesanan saya</button>
+        <nav class="site-nav" aria-label="Navigasi utama">
+            <a href="#about" class="nav-link" data-go="about" id="nav-about">About</a>
+            <button type="button" class="btn btn-small btn-outline-light" data-go="cek">Cek pesanan saya</button>
+        </nav>
     </header>
 
     <main id="app">
@@ -25,15 +28,37 @@
         <!-- ============ BERANDA ============ -->
         <section class="screen" id="s-beranda" hidden>
             <div class="hero">
-                <h1 tabindex="-1">Jahit dan permak, tanggal selesainya pasti.</h1>
-                <p>Pesan dari rumah, pilih jadwal jemput, lalu pantau progres pakaian Anda tanpa perlu bertanya ke
-                    penjahit.</p>
-                <div class="hero-actions">
-                    <button type="button" class="btn btn-tape" data-action="open-cara">Mulai memesan</button>
-                    <button type="button" class="btn btn-outline-light" data-go="cek">Cek pesanan saya</button>
+                <div class="hero-grid">
+                    <div class="hero-copy">
+                        <p class="eyebrow">Lebak Bulus, Jakarta Selatan</p>
+                        <h1 tabindex="-1">Jahit dan permak, tanggal selesainya pasti.</h1>
+                        <p>Pesan dari rumah, pilih jadwal jemput, lalu pantau progres pakaian Anda tanpa perlu bertanya
+                            ke penjahit.</p>
+                        <div class="hero-actions">
+                            <button type="button" class="btn btn-tape" data-action="open-cara">Mulai memesan</button>
+                            <button type="button" class="btn btn-outline-light" data-go="cek">Cek pesanan saya</button>
+                        </div>
+                    </div>
+                    <figure class="hero-photo">
+                        <img src="images/tampak-depan.jpg" alt="Tampak depan Bob Garage Tailor dengan dua penjahit sedang bekerja di dalam workshop" width="1402" height="1122">
+                    </figure>
                 </div>
                 <div class="ruler" aria-hidden="true"></div>
             </div>
+
+            <section class="gallery-strip" aria-labelledby="gal-title">
+                <h2 id="gal-title">Dari dalam workshop</h2>
+                <div class="gallery-grid">
+                    <figure class="photo-card">
+                        <img src="images/workshop-pola.jpg" alt="Pola kertas cokelat tergantung di dinding di atas dua mesin jahit" loading="lazy">
+                        <figcaption>Pola dikerjakan satu per satu</figcaption>
+                    </figure>
+                    <figure class="photo-card">
+                        <img src="images/workshop-sudut.jpg" alt="Sudut workshop dengan mesin jahit, benang warna-warni, dan rak pakaian" loading="lazy">
+                        <figcaption>Tempat kerja yang rapi dan terang</figcaption>
+                    </figure>
+                </div>
+            </section>
 
             <div class="stack">
                 <section class="panel">
@@ -49,25 +74,78 @@
                 </section>
                 <section class="panel">
                     <h2>Wilayah layanan</h2>
-                    <p>Antar-jemput tersedia di Jakarta Selatan dan Tangerang Selatan. Workshop kami ada di Lebak Bulus.
+                    <p>Pengantaran tersedia di Jakarta Selatan dan Tangerang Selatan. Workshop kami ada di Lebak Bulus.
                     </p>
                 </section>
             </div>
+        </section>
 
-            <dialog id="dlg-cara" aria-labelledby="dlg-cara-title">
-                <h2 id="dlg-cara-title">Pilih cara memesan</h2>
-                <div class="choice-list">
-                    <button type="button" class="choice" data-action="start-website">
-                        <strong>Pesan lewat website</strong>
-                        <span>Pilih layanan, unggah foto, dan atur jadwal jemput sendiri.</span>
-                    </button>
-                    <button type="button" class="choice" data-action="start-langsung">
-                        <strong>Pesan langsung</strong>
-                        <span>Datang ke workshop atau hubungi admin. Admin yang mencatat pesanan Anda.</span>
-                    </button>
+        <!-- ============ ABOUT ============ -->
+        <section class="screen" id="s-about" hidden>
+            <div class="about-hero">
+                <img src="images/workshop-pola.jpg" alt="" aria-hidden="true">
+                <div class="about-hero-text">
+                    <p class="eyebrow">About</p>
+                    <h2 tabindex="-1">Tentang Bob Garage Tailor</h2>
+                    <p>Jahit rapi, proses terlihat, tanggal selesai pasti.</p>
                 </div>
-                <button type="button" class="btn btn-ghost" data-action="close-cara">Batal</button>
-            </dialog>
+            </div>
+
+            <div class="about-body">
+                <p class="about-lead">Bob Garage Tailor lahir dari keluhan yang sering kita dengar soal tukang jahit:
+                    kualitasnya bagus, tapi kita harus datang berulang kali, tidak tahu pakaian sudah sampai tahap apa,
+                    dan tanggal selesainya sering meleset.</p>
+                <p>Karena itu kami membangun layanan jahit yang sejak awal berjalan di atas sistem digital. Workshop
+                    kami ada di Lebak Bulus, Jakarta Selatan, dengan antar-jemput ke Jakarta Selatan dan Tangerang
+                    Selatan. Setiap pesanan tercatat, setiap tahap bisa kamu lihat, dan setiap tanggal selesai
+                    dijanjikan di awal.</p>
+                <p>Kami usaha yang baru berdiri. Justru karena itu kami tidak minta kamu percaya begitu saja. Kami beri
+                    Jaminan Penyesuaian dan kami tunjukkan prosesnya.</p>
+            </div>
+
+            <ul class="pillars">
+                <li><span class="pillar-no" aria-hidden="true">01</span><strong>Tercatat</strong><span>Setiap pesanan masuk sistem sejak awal.</span></li>
+                <li><span class="pillar-no" aria-hidden="true">02</span><strong>Terlihat</strong><span>Setiap tahap bisa kamu lihat kapan saja.</span></li>
+                <li><span class="pillar-no" aria-hidden="true">03</span><strong>Terjanji</strong><span>Tanggal selesai dijanjikan di awal.</span></li>
+            </ul>
+
+            <section class="about-section" aria-labelledby="ba-title">
+                <h2 id="ba-title">Sebelum dan sesudah</h2>
+                <p class="lead">Contoh hasil jahitan dan permak kami.</p>
+                <div class="ba-grid">
+                    <figure class="ba-card">
+                        <img src="images/before-after-jas.jpg" alt="Perbandingan jas sebelum dan sesudah dipermak" loading="lazy">
+                        <figcaption><strong>Permak jas</strong><span>Potongan lebih pas di badan.</span></figcaption>
+                    </figure>
+                    <figure class="ba-card ba-wide">
+                        <img src="images/before-after-jeans.jpg" alt="Perbandingan ujung celana jeans sebelum dan sesudah hem dipotong" loading="lazy">
+                        <figcaption><strong>Potong hem celana</strong><span>Panjang pas, jahitan tetap rapi.</span></figcaption>
+                    </figure>
+                </div>
+            </section>
+
+            <section class="about-section" aria-labelledby="hs-title">
+                <h2 id="hs-title">Hasil jahitan</h2>
+                <div class="result-grid">
+                    <figure class="photo-card">
+                        <img src="images/hasil-kemeja.jpg" alt="Kemeja biru hasil jahitan tergantung di gantungan" loading="lazy">
+                        <figcaption>Kemeja</figcaption>
+                    </figure>
+                    <figure class="photo-card">
+                        <img src="images/hasil-jas.jpg" alt="Jas hitam hasil jahitan di atas manekin" loading="lazy">
+                        <figcaption>Jas</figcaption>
+                    </figure>
+                </div>
+            </section>
+
+            <div class="about-cta">
+                <h3>Siap mencoba?</h3>
+                <p>Pesan dari rumah, lalu pantau setiap tahapnya.</p>
+                <div class="hero-actions">
+                    <button type="button" class="btn btn-tape" data-action="open-cara">Mulai memesan</button>
+                    <button type="button" class="btn btn-outline-light" data-go="cek">Cek pesanan saya</button>
+                </div>
+            </div>
         </section>
 
         <!-- ============ KATALOG ============ -->
@@ -170,12 +248,12 @@
         <!-- ============ JADWAL ============ -->
         <section class="screen" id="s-jadwal" hidden>
             <ol class="stepper" data-step="4" aria-label="Langkah pemesanan"></ol>
-            <h2 tabindex="-1" id="jadwal-title">Pilih jadwal dan alamat penjemputan</h2>
+            <h2 tabindex="-1" id="jadwal-title">Pilih jadwal dan alamat pengantaran</h2>
             <p class="lead" id="jadwal-lead"></p>
             <div id="kurir-box"></div>
             <div id="slot-list"></div>
             <div class="field" id="alamat-jemput-wrap">
-                <label for="f-alamat-jemput">Alamat penjemputan</label>
+                <label for="f-alamat-jemput">Alamat pengantaran</label>
                 <textarea id="f-alamat-jemput" rows="2" aria-describedby="e-jadwal"></textarea>
             </div>
             <p class="error" id="e-jadwal" role="alert"></p>
@@ -376,6 +454,22 @@
             <h2 tabindex="-1">Pesanan selesai</h2>
             <div id="selesai-body"></div>
         </section>
+
+        <!-- Dialog dipasang di luar section supaya bisa dibuka dari halaman mana pun -->
+        <dialog id="dlg-cara" aria-labelledby="dlg-cara-title">
+            <h2 id="dlg-cara-title">Pilih cara memesan</h2>
+            <div class="choice-list">
+                <button type="button" class="choice" data-action="start-website">
+                    <strong>Pesan lewat website</strong>
+                    <span>Pilih layanan, unggah foto, dan atur jadwal jemput sendiri.</span>
+                </button>
+                <button type="button" class="choice" data-action="start-langsung">
+                    <strong>Pesan langsung</strong>
+                    <span>Datang ke workshop atau hubungi admin. Admin yang mencatat pesanan Anda.</span>
+                </button>
+            </div>
+            <button type="button" class="btn btn-ghost" data-action="close-cara">Batal</button>
+        </dialog>
 
     </main>
 

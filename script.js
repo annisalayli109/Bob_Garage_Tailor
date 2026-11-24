@@ -162,7 +162,7 @@
     }
 
     /* ---------- Router berbasis hash ---------- */
-    const SCREENS = ['beranda', 'katalog', 'form', 'estimasi', 'jadwal', 'ringkasan', 'proses', 'dp', 'konfirmasi',
+    const SCREENS = ['beranda', 'about', 'katalog', 'form', 'estimasi', 'jadwal', 'ringkasan', 'proses', 'dp', 'konfirmasi',
         'langsung', 'wa', 'cek', 'daftar', 'detail', 'status', 'pelunasan', 'terima', 'selesai'];
     const NEEDS_DRAFT = ['form', 'estimasi', 'jadwal', 'ringkasan'];
     const NEEDS_ORDER = ['proses', 'dp', 'konfirmasi', 'detail', 'status', 'pelunasan', 'terima', 'selesai', 'wa'];
@@ -173,7 +173,7 @@
         katalog: renderKatalog, form: renderForm, estimasi: renderEstimasi, jadwal: renderJadwal,
         ringkasan: renderRingkasan, proses: renderProses, dp: renderDp, konfirmasi: renderKonfirmasi,
         langsung: renderLangsung, wa: renderWa, cek: () => { }, daftar: renderDaftar, detail: renderDetail,
-        status: renderStatus, pelunasan: renderPelunasan, terima: () => { }, selesai: renderSelesai, beranda: () => { }
+        status: renderStatus, pelunasan: renderPelunasan, terima: () => { }, selesai: renderSelesai, beranda: () => { }, about: () => { }
     };
 
     function go(name) {
@@ -187,6 +187,8 @@
         if (name === 'jadwal' && !draft.name) return redirect('form');
         if (NEEDS_ORDER.includes(name) && !activeOrder()) return redirect('cek');
         current = name;
+        document.body.dataset.screen = name;
+        const na = $('#nav-about'); if (na) { if (name === 'about') na.setAttribute('aria-current', 'page'); else na.removeAttribute('aria-current'); }
         $$('.screen').forEach(s => { s.hidden = s.id !== 's-' + name; });
         const dlg = $('#dlg-cara'); if (dlg.open) dlg.close();
         $$('.stepper', $('#s-' + name)).forEach(renderStepper);
@@ -305,7 +307,7 @@
     function renderJadwal() {
         const mode = draftMode();
         const slots = genSlots(mode);
-        $('#jadwal-title').textContent = mode === 'ukur' ? 'Pilih slot pengukuran di workshop' : 'Pilih jadwal dan alamat penjemputan';
+        $('#jadwal-title').textContent = mode === 'ukur' ? 'Pilih slot pengukuran di workshop' : 'Pilih jadwal dan alamat pengantaran';
         $('#jadwal-lead').textContent = mode === 'ukur'
             ? 'Anda memilih jalur ukur langsung. Datang ke workshop di Lebak Bulus pada slot yang dipilih.'
             : 'Slot yang penuh tidak bisa dipilih. Sisa kuota ditampilkan di tiap slot.';
@@ -339,7 +341,7 @@
         const mode = draftMode();
         if (mode === 'jemput') {
             draft.pickupAddr = $('#f-alamat-jemput').value.trim();
-            if (!draft.pickupAddr) return setErr('e-jadwal', 'Isi alamat penjemputan.');
+            if (!draft.pickupAddr) return setErr('e-jadwal', 'Isi alamat pengantaran.');
             if (!draft.ojek && !draft.slot) return setErr('e-jadwal', 'Pilih satu slot penjemputan.');
         } else if (!draft.slot) {
             return setErr('e-jadwal', 'Pilih satu slot pengukuran.');
@@ -365,7 +367,7 @@
       </dl></div>
       <div class="panel"><h3>Jadwal</h3><dl class="rows">
         <div><dt>${draftMode() === 'ukur' ? 'Slot pengukuran' : 'Penjemputan'}</dt><dd>${esc(draft.ojek ? 'Ojek daring' : draft.slot.text)}</dd></div>
-        ${draftMode() === 'jemput' ? `<div><dt>Alamat jemput</dt><dd>${esc(draft.pickupAddr)}</dd></div>` : ''}
+        ${draftMode() === 'jemput' ? `<div><dt>Alamat pengantaran</dt><dd>${esc(draft.pickupAddr)}</dd></div>` : ''}
         ${jalur}
       </dl></div>
       <div class="panel"><h3>Data pemesan</h3><dl class="rows">
